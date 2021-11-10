@@ -3,29 +3,18 @@ public class SearchLogs {
     private static String apiString = '/services/data/v52.0/sobjects/ApexLog/';
     private static String bearer;
     
-    public static Boolean getDebugLogs(String searchStr) {
+    public static void searchLogs(String searchStr) {
         // 1. Create connected app
         // 2. Remote site setting for endpoint registration
         getAccessToken();
-        Http http = new Http();
-        HttpRequest request = new HttpRequest();
-
-        request.setMethod('GET');
-        request.setHeader('Authorization', 'Bearer '+bearer);
-        request.setEndpoint(currentOrgSite+apiString+'07L5g00000AMyZoEAL/Body');
-        
-        
-        HttpResponse response = http.send(request);
-        // If the request is successful, parse the JSON response.
-        System.debug('Response is right here: '+response.getStatusCode());
-        
-        if(response.getStatusCode() == 200) {
-            System.debug('Results is right here: '+response.getBody());
-            String logBody = response.getBody();
-            return logBody.containsIgnoreCase(searchStr);
-        } else {
-            return false;
+        // 07L5g00000AMyZoEAL
+        String allLogString = '';
+        List<ApexLog> allLogs = getLogs();
+        for (ApexLog al : allLogs) {
+            allLogString += getLogData(al.Id);
         }
+        System.debug('All logs **********************: '+allLogString);
+        System.debug('All logs End ***********************');
     }
     
     private static void getAccessToken() {
@@ -54,12 +43,34 @@ public class SearchLogs {
             Map<String, Object> resultMap = (Map<String, Object>) JSON.deserializeUntyped(response.getBody());
             
             String accessToken = (String)resultMap.get('access_token');
-            System.debug('Access token is: '+accessToken); // will return SESSION_ID_REMOVED by Salesforce for security purposes
+            System.debug('Access token is: '+accessToken); // will return SESSION_ID_REMOVED as session is removed by Salesforce for security purposes
             bearer = accessToken;
         }
     }
     
-    private static List<ApexLog> getLogIds() {
+    private static String getLogData(String logId) {
+        Http http = new Http();
+        HttpRequest request = new HttpRequest();
+
+        request.setMethod('GET');
+        request.setHeader('Authorization', 'Bearer '+bearer);
+        request.setEndpoint(currentOrgSite+apiString+logId+'/Body');
+        
+        
+        HttpResponse response = http.send(request);
+        // If the request is successful, parse the JSON response.
+       // System.debug('Response is right here: '+response.getStatusCode());
+        
+        String logBody = '';
+        if(response.getStatusCode() == 200) {
+            // System.debug('Results is right here: '+response.getBody());
+            logBody = response.getBody();
+        }
+        
+        return logBody;
+    } 
+    
+    private static List<ApexLog> getLogs() {
         return [SELECT Id FROM ApexLog];
     }
 }
