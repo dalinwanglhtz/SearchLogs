@@ -7,7 +7,6 @@ public class SearchLogs {
         // 1. Create connected app
         // 2. Remote site setting for endpoint registration
         getAccessToken();
-        // 07L5g00000AMyZoEAL
         String allLogString = '';
         List<ApexLog> allLogs = getLogs();
         for (ApexLog al : allLogs) {
@@ -59,11 +58,9 @@ public class SearchLogs {
         
         HttpResponse response = http.send(request);
         // If the request is successful, parse the JSON response.
-       // System.debug('Response is right here: '+response.getStatusCode());
         
         String logBody = '';
         if(response.getStatusCode() == 200) {
-            // System.debug('Results is right here: '+response.getBody());
             logBody = response.getBody();
         }
         
