@@ -10,7 +10,7 @@ public class SearchLogs {
         String allLogString = '';
         List<ApexLog> allLogs = getLogs();
         for (ApexLog al : allLogs) {
-            allLogString += getLogData(al.Id);
+            allLogString += getLogData(al.Id, searchStr);
         }
         System.debug('All logs **********************: '+allLogString);
         System.debug('All logs End ***********************');
@@ -47,7 +47,7 @@ public class SearchLogs {
         }
     }
     
-    private static String getLogData(String logId) {
+    private static String getLogData(String logId, String searchStr) {
         Http http = new Http();
         HttpRequest request = new HttpRequest();
 
@@ -64,7 +64,8 @@ public class SearchLogs {
             logBody = response.getBody();
         }
         
-        return logBody;
+        
+        return logBody.contains(searchStr) ? logBody : '';
     } 
     
     private static List<ApexLog> getLogs() {
