@@ -2,18 +2,24 @@ public class SearchLogs {
     private static String currentOrgSite = 'https://australiacom-dev-ed.my.salesforce.com';
     private static String apiString = '/services/data/v52.0/sobjects/ApexLog/';
     private static String bearer;
+    private static String srchStr;
     
+    @AuraEnabled
     public static String searchLogs(String searchStr) {
+        srchStr = searchStr;
         // 1. Create connected app
         // 2. Remote site setting for endpoint registration
         getAccessToken();
         String allLogString = '';
         List<ApexLog> allLogs = getLogs();
         for (ApexLog al : allLogs) {
-            allLogString += getLogData(al.Id, searchStr);
+            String someData = getLogData(al.Id);
+            if(String.isNotBlank(someData)) {
+            	allLogString += someData;    
+            }
         }
-      //  System.debug('All logs **********************: '+allLogString);
-      //  System.debug('All logs End ***********************');
+        System.debug('All logs **********************: '+allLogString);
+        System.debug('All logs End ***********************');
         return allLogString;
     }
     
@@ -48,7 +54,7 @@ public class SearchLogs {
         }
     }
     
-    private static String getLogData(String logId, String searchStr) {
+    private static String getLogData(String logId) {
         Http http = new Http();
         HttpRequest request = new HttpRequest();
 
@@ -66,7 +72,7 @@ public class SearchLogs {
         }
         
         
-        return logBody.contains(searchStr) ? logBody : '';
+        return logBody.contains(srchStr) ? logBody : null;
     } 
     
     private static List<ApexLog> getLogs() {
