@@ -3,7 +3,7 @@ public class SearchLogs {
     private static String apiString = '/services/data/v52.0/sobjects/ApexLog/';
     private static String bearer;
     
-    public static void searchLogs(String searchStr) {
+    public static String searchLogs(String searchStr) {
         // 1. Create connected app
         // 2. Remote site setting for endpoint registration
         getAccessToken();
@@ -12,8 +12,9 @@ public class SearchLogs {
         for (ApexLog al : allLogs) {
             allLogString += getLogData(al.Id, searchStr);
         }
-        System.debug('All logs **********************: '+allLogString);
-        System.debug('All logs End ***********************');
+      //  System.debug('All logs **********************: '+allLogString);
+      //  System.debug('All logs End ***********************');
+        return allLogString;
     }
     
     private static void getAccessToken() {
