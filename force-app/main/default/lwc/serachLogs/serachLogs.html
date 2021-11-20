@@ -2,6 +2,11 @@
     <div>
         <lightning-input type="text" label="Serach logs" placeholder="Search term ..."></lightning-input>
         <lightning-button label="Search" onclick={handleSearch}></lightning-button>
-        <lightning-textarea value={someData} readonly label="Log display"></lightning-textarea>
+        <div if:false={isLoaded}>
+            <lightning-spinner variant="brand"></lightning-spinner>
+        </div>
+        <div if:true={isLoaded}>
+            <lightning-textarea value={someData} readonly label="Log display"></lightning-textarea>
+        </div>
     </div>
 </template>
