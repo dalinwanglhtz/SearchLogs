@@ -1,7 +1,7 @@
 <template>
     <div>
-        Hello there!
+        <lightning-input type="text" label="Serach logs" placeholder="Search term ..."></lightning-input>
         <lightning-button label="Search" onclick={handleSearch}></lightning-button>
-        {someData}
+        <lightning-textarea value={someData} readonly label="Log display"></lightning-textarea>
     </div>
 </template>

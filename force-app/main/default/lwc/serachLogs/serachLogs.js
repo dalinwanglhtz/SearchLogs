@@ -5,7 +5,9 @@ export default class SerachLogs extends LightningElement {
     someData;
 
     handleSearch() {
-        searchLogs({searchStr : 'australia'})
+        let searchText = this.template.querySelector('lightning-input').value;
+        if(!searchText) return;
+        searchLogs({searchStr : searchText})
             .then((result) => {
                 console.log('log data: ', result);
                 this.someData = result;

@@ -14,12 +14,13 @@ public class SearchLogs {
         List<ApexLog> allLogs = getLogs();
         for (ApexLog al : allLogs) {
             String someData = getLogData(al.Id);
-            if(String.isNotBlank(someData)) {
+            if(String.isNotBlank(someData) && !someData.contains('selfsearch')) {
             	allLogString += someData;    
             }
         }
-        System.debug('All logs **********************: '+allLogString);
-        System.debug('All logs End ***********************');
+        System.debug('selfsearch');
+       // System.debug('All logs **********************: '+allLogString);
+       // System.debug('All logs End ***********************');
         return allLogString;
     }
     
