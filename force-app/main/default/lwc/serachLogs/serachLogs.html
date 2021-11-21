@@ -1,24 +1,28 @@
 <template>
     <lightning-card>
-        <c-api-user-register></c-api-user-register>
         <p slot="title">Search Logs</p>
-        <div class="slds-var-m-around_medium">
-            <lightning-input 
-                type="text" 
-                label="Enter search text" 
-                placeholder="Search term ..."
-                onkeypress={handleEnter}
-            ></lightning-input>
-            <div class="slds-var-m-top_xx-small">
-                <lightning-button label="Search" onclick={handleSearch}></lightning-button>
-            </div>
-            <div if:false={isLoaded}>
-                <lightning-spinner variant="brand"></lightning-spinner>
-            </div>
-            <div if:true={isLoaded}>
-                <textarea class="slds-textarea slds-var-m-top_small" rows="7">
-                    {someData}
-                </textarea>
+        <div if:false={readyForSearch}>
+            <c-api-user-register onregistersuccess={handerRegisterSuccess}></c-api-user-register>
+        </div>
+        <div if:true={readyForSearch}>
+            <div class="slds-var-m-around_medium">
+                <lightning-input 
+                    type="text" 
+                    label="Enter search text" 
+                    placeholder="Search term ..."
+                    onkeypress={handleEnter}
+                ></lightning-input>
+                <div class="slds-var-m-top_xx-small">
+                    <lightning-button label="Search" onclick={handleSearch}></lightning-button>
+                </div>
+                <div if:false={isLoaded}>
+                    <lightning-spinner variant="brand"></lightning-spinner>
+                </div>
+                <div if:true={isLoaded}>
+                    <textarea class="slds-textarea slds-var-m-top_small" rows="7">
+                        {someData}
+                    </textarea>
+                </div>
             </div>
         </div>
     </lightning-card>

@@ -26,6 +26,7 @@ export default class ApiUserRegister extends LightningElement {
         apiUserRegister({apiUser: apiUser})
             .then((result) => {
                 console.log('Success');
+                this.dispatchEvent(new CustomEvent('registersuccess'));
             })
             .catch((error) => {
                 console.log('Error: ', error);

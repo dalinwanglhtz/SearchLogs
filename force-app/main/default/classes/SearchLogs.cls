@@ -3,6 +3,7 @@ public class SearchLogs {
     private static String apiString = '/services/data/v52.0/sobjects/ApexLog/';
     private static String bearer;
     private static String srchStr;
+    private static Api_User__c registeredApiUser;
     
     @AuraEnabled
     public static String searchLogs(String searchStr) {
@@ -29,14 +30,24 @@ public class SearchLogs {
         insert apiUser;
     }
     
+    @AuraEnabled
+    public static Boolean getApiUser() {
+        try {
+            registeredApiUser = [SELECT Id, Current_Org_Site__c, Username__c, Password__c, Client_ID__c, Client_Secret__c
+                              FROM Api_User__c
+                              WHERE Username__c = :UserInfo.getUserName()];    
+        } catch (Exception ex) {
+            return false;
+        }
+        return true;
+    }
+    
     private static void getAccessToken() {
         // 1. Create connected app
         // 2. Remote site setting for endpoint registration
-        Api_User__c apiUser = [SELECT Id, Current_Org_Site__c, Username__c, Password__c, Client_ID__c, Client_Secret__c
-                              FROM Api_User__c
-                              WHERE Username__c = :UserInfo.getUserName()];
-        
-        
+        getApiUser();
+        System.debug('Registered user: '+registeredApiUser);
+        if(registeredApiUser == null) return;
       /*  String username = 'dalewang@australia.com';
         String password = 'Digital2!gtg9GraDOYfxh8NWgQopiUoq';
         String grantType = 'password';
@@ -49,10 +60,10 @@ public class SearchLogs {
         request.setEndpoint('https://login.salesforce.com/services/oauth2/token');
         request.setHeader('Content-Type','application/x-www-form-urlencoded');        
         request.setBody('grant_type=password' + 
-                    '&client_id=' + apiUser.Client_ID__c + 
-                    '&client_secret=' + apiUser.Client_Secret__c + 
-                    '&username=' + apiUser.Username__c + 
-                    '&password=' + apiUser.Password__c);
+                    '&client_id=' + registeredApiUser.Client_ID__c + 
+                    '&client_secret=' + registeredApiUser.Client_Secret__c + 
+                    '&username=' + registeredApiUser.Username__c + 
+                    '&password=' + registeredApiUser.Password__c);
         
         httpResponse response = http.send(request);
         
