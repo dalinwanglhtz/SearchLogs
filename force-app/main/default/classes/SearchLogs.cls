@@ -23,14 +23,25 @@ public class SearchLogs {
         return allLogString;
     }
     
+    @AuraEnabled
+    public static void apiUserRegister(Api_User__c apiUser) {
+        System.debug('API User: '+apiUser);
+        insert apiUser;
+    }
+    
     private static void getAccessToken() {
         // 1. Create connected app
         // 2. Remote site setting for endpoint registration
-        String username = 'dalewang@australia.com';
+        Api_User__c apiUser = [SELECT Id, Current_Org_Site__c, Username__c, Password__c, Client_ID__c, Client_Secret__c
+                              FROM Api_User__c
+                              WHERE Username__c = :UserInfo.getUserName()];
+        
+        
+      /*  String username = 'dalewang@australia.com';
         String password = 'Digital2!gtg9GraDOYfxh8NWgQopiUoq';
         String grantType = 'password';
         String clientId = '3MVG9fe4g9fhX0E6c6x1mh38Y0cCjHMAOVouYb30AgFT0jaXBSpHhfxzedxCJ3Y.NzrY4rDmKz1K2eVdAp4WE';
-        String clientSecret = 'C913B844D2C744D8D4FFE666D873FFB902847CC7CF69A09E653E55CAED0572E0';
+        String clientSecret = 'C913B844D2C744D8D4FFE666D873FFB902847CC7CF69A09E653E55CAED0572E0'; */
         
         Http http = new Http();
         HttpRequest request = new HttpRequest();
@@ -38,10 +49,10 @@ public class SearchLogs {
         request.setEndpoint('https://login.salesforce.com/services/oauth2/token');
         request.setHeader('Content-Type','application/x-www-form-urlencoded');        
         request.setBody('grant_type=password' + 
-                    '&client_id=' + clientId + 
-                    '&client_secret=' + clientSecret + 
-                    '&username=' + username + 
-                    '&password=' + password);
+                    '&client_id=' + apiUser.Client_ID__c + 
+                    '&client_secret=' + apiUser.Client_Secret__c + 
+                    '&username=' + apiUser.Username__c + 
+                    '&password=' + apiUser.Password__c);
         
         httpResponse response = http.send(request);
         
