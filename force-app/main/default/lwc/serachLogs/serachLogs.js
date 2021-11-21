@@ -5,6 +5,13 @@ export default class SerachLogs extends LightningElement {
     someData;
     isLoaded = true;
 
+    handleEnter(event) {
+        // When you hit Enter key
+        if(event.keyCode == 13) {
+            this.handleSearch();
+        }
+    }
+
     handleSearch() {
         this.isLoaded = false;
         let searchText = this.template.querySelector('lightning-input').value;

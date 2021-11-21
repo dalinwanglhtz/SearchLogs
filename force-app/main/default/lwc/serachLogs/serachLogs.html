@@ -1,12 +1,24 @@
 <template>
-    <div>
-        <lightning-input type="text" label="Serach logs" placeholder="Search term ..."></lightning-input>
-        <lightning-button label="Search" onclick={handleSearch}></lightning-button>
-        <div if:false={isLoaded}>
-            <lightning-spinner variant="brand"></lightning-spinner>
+    <lightning-card>
+        <p slot="title">Search Logs</p>
+        <div class="slds-var-m-around_medium">
+            <lightning-input 
+                type="text" 
+                label="Enter search text" 
+                placeholder="Search term ..."
+                onkeypress={handleEnter}
+            ></lightning-input>
+            <div class="slds-var-m-top_xx-small">
+                <lightning-button label="Search" onclick={handleSearch}></lightning-button>
+            </div>
+            <div if:false={isLoaded}>
+                <lightning-spinner variant="brand"></lightning-spinner>
+            </div>
+            <div if:true={isLoaded}>
+                <textarea class="slds-textarea slds-var-m-top_small" rows="7">
+                    {someData}
+                </textarea>
+            </div>
         </div>
-        <div if:true={isLoaded}>
-            <lightning-textarea value={someData} readonly label="Log display"></lightning-textarea>
-        </div>
-    </div>
+    </lightning-card>
 </template>
