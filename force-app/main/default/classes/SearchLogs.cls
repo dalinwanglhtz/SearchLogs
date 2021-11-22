@@ -1,5 +1,5 @@
 public class SearchLogs {
-    private static String currentOrgSite = 'https://australiacom-dev-ed.my.salesforce.com';
+    private static String currentOrgSite;
     private static String apiString = '/services/data/v52.0/sobjects/ApexLog/';
     private static String bearer;
     private static String srchStr;
@@ -46,14 +46,9 @@ public class SearchLogs {
         // 1. Create connected app
         // 2. Remote site setting for endpoint registration
         getApiUser();
-        System.debug('Registered user: '+registeredApiUser);
         if(registeredApiUser == null) return;
-      /*  String username = 'dalewang@australia.com';
-        String password = 'Digital2!gtg9GraDOYfxh8NWgQopiUoq';
-        String grantType = 'password';
-        String clientId = '3MVG9fe4g9fhX0E6c6x1mh38Y0cCjHMAOVouYb30AgFT0jaXBSpHhfxzedxCJ3Y.NzrY4rDmKz1K2eVdAp4WE';
-        String clientSecret = 'C913B844D2C744D8D4FFE666D873FFB902847CC7CF69A09E653E55CAED0572E0'; */
         
+        currentOrgSite = registeredApiUser.Current_Org_Site__c;
         Http http = new Http();
         HttpRequest request = new HttpRequest();
         request.setMethod('POST');
