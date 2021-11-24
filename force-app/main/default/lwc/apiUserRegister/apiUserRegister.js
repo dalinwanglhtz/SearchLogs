@@ -15,8 +15,6 @@ export default class ApiUserRegister extends LightningElement {
                 apiUser.Client_ID__c = element.value;
             } else if(element.name == 'clientSecret') {
                 apiUser.Client_Secret__c = element.value;
-            } else if(element.name == 'currentOrg') {
-                apiUser.Current_Org_Site__c = element.value;
             }
         });
         this.registerApiUser(apiUser);

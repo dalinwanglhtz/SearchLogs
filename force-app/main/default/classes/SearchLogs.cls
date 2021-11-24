@@ -48,7 +48,7 @@ public class SearchLogs {
         getApiUser();
         if(registeredApiUser == null) return;
         
-        currentOrgSite = registeredApiUser.Current_Org_Site__c;
+        currentOrgSite = URL.getSalesforceBaseUrl().toExternalForm();
         Http http = new Http();
         HttpRequest request = new HttpRequest();
         request.setMethod('POST');
