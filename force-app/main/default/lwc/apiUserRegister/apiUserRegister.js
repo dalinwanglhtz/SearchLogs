@@ -1,8 +1,10 @@
 import { LightningElement } from 'lwc';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
+import USERNAME from '@salesforce/user/Id';
 import apiUserRegister from '@salesforce/apex/SearchLogs.apiUserRegister';
 
 export default class ApiUserRegister extends LightningElement {
+    username = USERNAME;
 
     handleRegister() {
         let apiUser = {}
