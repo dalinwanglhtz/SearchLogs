@@ -27,7 +27,16 @@ public class SearchLogs {
     @AuraEnabled
     public static void apiUserRegister(Api_User__c apiUser) {
         System.debug('API User: '+apiUser);
-        insert apiUser;
+        try {
+        	insert apiUser;    
+        } catch(Exception ex) {
+            String errMsg = ex.getMessage();
+            if(errMsg.contains('REQUIRED_FIELD_MISSING') && errMsg.contains('Username')) {
+                throw new AuraHandledException('API User Register Failed! Required Field Missing - Username');
+            } else {
+            	throw new AuraHandledException('API User Register Failed! Error: '+ex.getMessage());    
+            }
+        }
     }
     
     @AuraEnabled

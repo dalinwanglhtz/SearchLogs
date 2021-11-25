@@ -1,4 +1,5 @@
 import { LightningElement } from 'lwc';
+import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import apiUserRegister from '@salesforce/apex/SearchLogs.apiUserRegister';
 
 export default class ApiUserRegister extends LightningElement {
@@ -23,11 +24,14 @@ export default class ApiUserRegister extends LightningElement {
     registerApiUser(apiUser) {
         apiUserRegister({apiUser: apiUser})
             .then((result) => {
-                console.log('Success');
                 this.dispatchEvent(new CustomEvent('registersuccess'));
             })
             .catch((error) => {
-                console.log('Error: ', error);
+                this.dispatchEvent(new ShowToastEvent({
+                    title: 'Error',
+                    message: error.body.message,
+                    variant: 'error'
+                }));
             })
     }
 }
