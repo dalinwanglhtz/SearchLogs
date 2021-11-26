@@ -1,10 +1,21 @@
-import { LightningElement } from 'lwc';
+import { LightningElement, wire } from 'lwc';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
-import USERNAME from '@salesforce/user/Id';
+import USER_ID from '@salesforce/user/Id';
+import { getRecord } from 'lightning/uiRecordApi';
+import NAME_FIELD from '@salesforce/schema/User.Name';
 import apiUserRegister from '@salesforce/apex/SearchLogs.apiUserRegister';
 
 export default class ApiUserRegister extends LightningElement {
-    username = USERNAME;
+    error;
+
+    @wire(getRecord, {
+        recordId: USER_ID,
+        fields: [NAME_FIELD]
+    }) userRecord;
+
+    get username() {
+        return this.userRecord.data.fields.Name.value;
+    }
 
     handleRegister() {
         let apiUser = {}
