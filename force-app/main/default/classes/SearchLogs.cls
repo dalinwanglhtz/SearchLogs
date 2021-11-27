@@ -26,7 +26,6 @@ public class SearchLogs {
     
     @AuraEnabled
     public static void apiUserRegister(Api_User__c apiUser) {
-        System.debug('API User: '+apiUser);
         try {
         	insert apiUser;    
         } catch(Exception ex) {
@@ -37,7 +36,7 @@ public class SearchLogs {
     @AuraEnabled
     public static Boolean getApiUser() {
         try {
-            registeredApiUser = [SELECT Id, Current_Org_Site__c, Username__c, Password__c, Client_ID__c, Client_Secret__c
+            registeredApiUser = [SELECT Id, Username__c, Password__c, Client_ID__c, Client_Secret__c
                               FROM Api_User__c
                               WHERE Username__c = :UserInfo.getUserName()];    
         } catch (Exception ex) {
