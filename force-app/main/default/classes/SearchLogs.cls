@@ -47,7 +47,7 @@ public class SearchLogs {
     }
     
     @AuraEnabled
-    public static String getUserName(Id userId) {
+    public static String getUserName() {
         return UserInfo.getUserName();
     }
     
