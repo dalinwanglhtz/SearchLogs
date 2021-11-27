@@ -46,6 +46,11 @@ public class SearchLogs {
         return true;
     }
     
+    @AuraEnabled
+    public static String getUserName(Id userId) {
+        return UserInfo.getUserName();
+    }
+    
     private static void getAccessToken() {
         // 1. Create connected app
         // 2. Remote site setting for endpoint registration
