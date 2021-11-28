@@ -1,6 +1,9 @@
 <template>
     <lightning-card>
         <p slot="title">Search Logs</p>
+        <div slot="actions">
+            <c-modal-window></c-modal-window>
+        </div>
         <div if:false={readyForSearch}>
             <c-api-user-register onregistersuccess={handerRegisterSuccess}></c-api-user-register>
         </div>

@@ -1,0 +1,28 @@
+<template>
+    <div class="slds-var-m-left_small">
+        <ol class="slds-list_ordered">
+            <li>Create a new Connected App: Setup -> App Manager
+                <ol class="slds-is-nested slds-list_ordered">
+                    <li>New Connected App</li>
+                    <li>Filling in App Name and Contact email</li>
+                    <li>Enable Oauth Settings</li>
+                    <li>Callback URL (any): https://www.salesforce.com (if you want to)</li>
+                    <li>Save</li>
+                </ol>
+            </li>
+            <li>Setup -> App Manager -> Goto Connected App created above -> Click on dropdown -> Select View
+                <ol class="slds-is-nested slds-list_ordered">
+                    <li>Client ID -> Consumer Key -> Copy (for Client ID below)</li>
+                    <li>Client Secret -> Consumer Secre -> Click to Review -> Copy (for Client Secret below)</li>
+                </ol>
+            </li>
+            <li>Your Password -> Your salesforce password + security token
+                <ol class="slds-is-nested slds-list_ordered">
+                    <li>My Profile -> Setting-> Reset My Security Token</li>
+                    <li>Copy the resulting token (for password below)</li>
+                </ol>
+            </li>
+            <li>Setup -> Remote Site Setting -> New -> Add new entry for https://login.salesforce.com</li>
+        </ol>
+    </div>
+</template>
