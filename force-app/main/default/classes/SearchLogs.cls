@@ -1,6 +1,6 @@
 public class SearchLogs {
     private static String currentOrgSite;
-    private static String apiString = '/services/data/v52.0/sobjects/ApexLog/';
+    private static String API_PATH = '/services/data/v52.0/sobjects/ApexLog/';
     private static String bearer;
     private static String srchStr;
     private static Api_User__c registeredApiUser;
@@ -85,7 +85,7 @@ public class SearchLogs {
 
         request.setMethod('GET');
         request.setHeader('Authorization', 'Bearer '+bearer);
-        request.setEndpoint(currentOrgSite+apiString+logId+'/Body');
+        request.setEndpoint(currentOrgSite+API_PATH+logId+'/Body');
         
         
         HttpResponse response = http.send(request);
