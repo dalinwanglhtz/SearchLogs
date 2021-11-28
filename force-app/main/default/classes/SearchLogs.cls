@@ -37,8 +37,7 @@ public class SearchLogs {
     public static Boolean getApiUser() {
         try {
             registeredApiUser = [SELECT Id, Username__c, Password__c, Client_ID__c, Client_Secret__c
-                              FROM Api_User__c
-                              WHERE Username__c = :UserInfo.getUserName()];    
+                              FROM Api_User__c LIMIT 1];    
         } catch (Exception ex) {
             return false;
         }
