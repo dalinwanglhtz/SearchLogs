@@ -1,4 +1,5 @@
-import { LightningElement, wire } from 'lwc';
+import { LightningElement } from 'lwc';
+import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import searchLogs from '@salesforce/apex/SearchLogs.searchLogs';
 import getApiUser from '@salesforce/apex/SearchLogs.getApiUser';
 
@@ -38,7 +39,13 @@ export default class SerachLogs extends LightningElement {
         }
         searchLogs({searchStr : searchText})
             .then((result) => {
-                console.log('Got data: ', result);
+                if(!result) {
+                    this.dispatchEvent(new ShowToastEvent({
+                        title: 'Error',
+                        message: 'No results found',
+                        variant: 'error'
+                    }))
+                }
                 this.isLoaded = true;
                 this.someData = result;
             })
