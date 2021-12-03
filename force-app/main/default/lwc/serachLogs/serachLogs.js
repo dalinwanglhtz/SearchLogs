@@ -1,7 +1,7 @@
 import { LightningElement } from 'lwc';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import searchLogs from '@salesforce/apex/SearchLogs.searchLogs';
-import getApiUser from '@salesforce/apex/SearchLogs.getApiUser';
+import getApiUser from '@salesforce/apex/SearchLogs.hasApiUser';
 
 export default class SerachLogs extends LightningElement {
     someData;

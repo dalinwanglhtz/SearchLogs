@@ -1,5 +1,5 @@
 public class SearchLogs {
-    private static String currentOrgSite;
+    private static String currentOrgSite = URL.getSalesforceBaseUrl().toExternalForm();
     private static String API_PATH = '/services/data/v52.0/sobjects/ApexLog/';
     private static String bearer;
     private static String srchStr;
@@ -10,7 +10,9 @@ public class SearchLogs {
         srchStr = searchStr;
         // 1. Create connected app
         // 2. Remote site setting for endpoint registration
-        getAccessToken();
+        registeredApiUser = getApiUser();
+        if(registeredApiUser == null) return null;
+        bearer = getAccessToken();
         String allLogString = '';
         List<ApexLog> allLogs = getLogs();
         for (ApexLog al : allLogs) {
@@ -27,21 +29,15 @@ public class SearchLogs {
     @AuraEnabled
     public static void apiUserRegister(Api_User__c apiUser) {
         try {
-        	insert apiUser;    
+        	insert apiUser;
         } catch(Exception ex) {
             throw new AuraHandledException('API User Register Failed! Error: '+ex.getMessage());    
         }
     }
     
     @AuraEnabled
-    public static Boolean getApiUser() {
-        try {
-            registeredApiUser = [SELECT Id, Username__c, Password__c, Client_ID__c, Client_Secret__c
-                              FROM Api_User__c LIMIT 1];    
-        } catch (Exception ex) {
-            return false;
-        }
-        return true;
+    public static Boolean hasApiUser() {
+        return getApiUser() != null;
     }
     
     @AuraEnabled
@@ -49,13 +45,21 @@ public class SearchLogs {
         return UserInfo.getUserName();
     }
     
-    private static void getAccessToken() {
+    private static Api_User__c getApiUser() {
+        Api_User__c apiUser;
+        try {
+        	apiUser = [SELECT Id, Username__c, Password__c, Client_ID__c, Client_Secret__c
+                       FROM Api_User__c 
+                       WHERE Username__c = :UserInfo.getUserName() LIMIT 1];
+            return apiUser;
+        } catch(Exception ex) {
+            return null;
+        }
+    }
+    
+    private static String getAccessToken() {
         // 1. Create connected app
         // 2. Remote site setting for endpoint registration
-        getApiUser();
-        if(registeredApiUser == null) return;
-        
-        currentOrgSite = URL.getSalesforceBaseUrl().toExternalForm();
         Http http = new Http();
         HttpRequest request = new HttpRequest();
         request.setMethod('POST');
@@ -69,13 +73,15 @@ public class SearchLogs {
         
         httpResponse response = http.send(request);
         
+        String accessToken;
         if(response.getStatusCode() == 200) {
             Map<String, Object> resultMap = (Map<String, Object>) JSON.deserializeUntyped(response.getBody());
             
-            String accessToken = (String)resultMap.get('access_token');
+            accessToken = (String)resultMap.get('access_token');
             System.debug('Access token is: '+accessToken); // will return SESSION_ID_REMOVED as session is removed by Salesforce for security purposes
-            bearer = accessToken;
         }
+        
+        return accessToken;
     }
     
     private static String getLogData(String logId) {
@@ -86,7 +92,6 @@ public class SearchLogs {
         request.setHeader('Authorization', 'Bearer '+bearer);
         request.setEndpoint(currentOrgSite+API_PATH+logId+'/Body');
         
-        
         HttpResponse response = http.send(request);
         // If the request is successful, parse the JSON response.
         
@@ -94,7 +99,6 @@ public class SearchLogs {
         if(response.getStatusCode() == 200) {
             logBody = response.getBody();
         }
-        
         
         return logBody.contains(srchStr) ? logBody : null;
     } 
