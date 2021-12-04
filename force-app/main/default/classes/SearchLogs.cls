@@ -3,16 +3,15 @@ public class SearchLogs {
     private static String API_PATH = '/services/data/v52.0/sobjects/ApexLog/';
     private static String bearer;
     private static String srchStr;
-    private static Api_User__c registeredApiUser;
     
     @AuraEnabled
     public static String searchLogs(String searchStr) {
         srchStr = searchStr;
         // 1. Create connected app
         // 2. Remote site setting for endpoint registration
-        registeredApiUser = getApiUser();
+        Api_User__c registeredApiUser = getApiUser(UserInfo.getUserName());
         if(registeredApiUser == null) return null;
-        bearer = getAccessToken();
+        bearer = getAccessToken(registeredApiUser);
         String allLogString = '';
         List<ApexLog> allLogs = getLogs();
         for (ApexLog al : allLogs) {
@@ -28,16 +27,16 @@ public class SearchLogs {
     
     @AuraEnabled
     public static void apiUserRegister(Api_User__c apiUser) {
-        try {
-        	insert apiUser;
-        } catch(Exception ex) {
-            throw new AuraHandledException('API User Register Failed! Error: '+ex.getMessage());    
+        if(getAccessToken(apiUser) != null) {
+            insert apiUser;
+        } else {
+            throw new AuraHandledException('API User cannot be registered! Make sure user details and credentials are entered correctly.');
         }
     }
     
     @AuraEnabled
     public static Boolean hasApiUser() {
-        return getApiUser() != null;
+        return getApiUser(UserInfo.getUserName()) != null;
     }
     
     @AuraEnabled
@@ -45,19 +44,19 @@ public class SearchLogs {
         return UserInfo.getUserName();
     }
     
-    private static Api_User__c getApiUser() {
+    private static Api_User__c getApiUser(String userName) {
         Api_User__c apiUser;
         try {
         	apiUser = [SELECT Id, Username__c, Password__c, Client_ID__c, Client_Secret__c
                        FROM Api_User__c 
-                       WHERE Username__c = :UserInfo.getUserName() LIMIT 1];
+                       WHERE Username__c = :userName LIMIT 1];
             return apiUser;
         } catch(Exception ex) {
-            return null;
+            throw new ApplicationException('No Api User found with username: '+userName);
         }
     }
     
-    private static String getAccessToken() {
+    private static String getAccessToken(Api_User__c apiUser) {
         // 1. Create connected app
         // 2. Remote site setting for endpoint registration
         Http http = new Http();
@@ -66,10 +65,10 @@ public class SearchLogs {
         request.setEndpoint('https://login.salesforce.com/services/oauth2/token');
         request.setHeader('Content-Type','application/x-www-form-urlencoded');        
         request.setBody('grant_type=password' + 
-                    '&client_id=' + registeredApiUser.Client_ID__c + 
-                    '&client_secret=' + registeredApiUser.Client_Secret__c + 
-                    '&username=' + registeredApiUser.Username__c + 
-                    '&password=' + registeredApiUser.Password__c);
+                    '&client_id=' + apiUser.Client_ID__c + 
+                    '&client_secret=' + apiUser.Client_Secret__c + 
+                    '&username=' + apiUser.Username__c + 
+                    '&password=' + apiUser.Password__c);
         
         httpResponse response = http.send(request);
         
@@ -106,4 +105,6 @@ public class SearchLogs {
     private static List<ApexLog> getLogs() {
         return [SELECT Id FROM ApexLog];
     }
+    
+    public class ApplicationException extends Exception {}
 }
