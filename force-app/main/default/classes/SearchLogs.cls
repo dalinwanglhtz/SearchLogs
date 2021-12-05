@@ -2,11 +2,9 @@ public class SearchLogs {
     private static String currentOrgSite = URL.getSalesforceBaseUrl().toExternalForm();
     private static String API_PATH = '/services/data/v52.0/sobjects/ApexLog/';
     private static String bearer;
-    private static String srchStr;
     
     @AuraEnabled
     public static String searchLogs(String searchStr) {
-        srchStr = searchStr;
         // 1. Create connected app
         // 2. Remote site setting for endpoint registration
         Api_User__c registeredApiUser = getApiUser(UserInfo.getUserName());
@@ -16,7 +14,7 @@ public class SearchLogs {
         List<ApexLog> allLogs = getLogs();
         for (ApexLog al : allLogs) {
             String someData = getLogData(al.Id);
-            if(String.isNotBlank(someData) && !someData.contains('selfsearch')) {
+            if(someData.containsIgnoreCase(searchStr) && !someData.contains('selfsearch')) {
             	allLogString += someData;    
             }
         }
@@ -99,7 +97,7 @@ public class SearchLogs {
             logBody = response.getBody();
         }
         
-        return logBody.contains(srchStr) ? logBody : null;
+        return logBody;
     } 
     
     private static List<ApexLog> getLogs() {
