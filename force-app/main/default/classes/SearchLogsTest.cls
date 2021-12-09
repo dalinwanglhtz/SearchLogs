@@ -7,28 +7,41 @@ public class SearchLogsTest {
     }
     
     @IsTest
-    private static void testApiUserRegister() {
+    private static void testGetAccessToken() {
         Api_User__c apiUser = new Api_User__c();
         apiUser.Client_ID__c = 'abc';
         apiUser.Client_Secret__c = 'def';
-        apiUser.Username__c = 'ghi@email.com';
-        apiUser.Password__c = 'abcdef';
-        
-        SearchLogs.apiUserRegister(apiUser);
-        
-        List<Api_User__c> resultUsers = [SELECT Id FROM Api_User__c WHERE Username__c = 'ghi@email.com'];
-        System.assert(resultUsers.size() > 0, 'Should return at least 1 user');
-    }
-    
-    @IsTest
-    private static void testGetApiUser() {
-        Api_User__c apiUser = new Api_User__c();
-        apiUser.Client_ID__c = 'abc';
-        apiUser.Client_Secret__c = 'def';
-        apiUser.Username__c = 'ghi@email.com';
+        apiUser.Username__c = 'test@test.com';
         apiUser.Password__c = 'abcdef';
         insert apiUser;
         
-        System.assert(SearchLogs.getApiUser(), 'Should return true');
+        Test.startTest();
+        Test.setMock(HTTPCalloutMock.class, new MockHTTPAuthenticate());        
+        String bearer = SearchLogs.getAccessToken(apiUser);
+        Test.stopTest();
+
+        System.assertEquals('abcde', bearer, 'Bearer should equal abcde');
+    }
+    
+    @IsTest
+    private static void testGetLogData() {
+        Test.startTest();
+        Test.setMock(HTTPCalloutMock.class, new MockHTTPLogData());
+        String logData = SearchLogs.getLogData('testlogid');
+        Test.stopTest();
+        
+        System.assertEquals('testlogdata', logData, 'Log data should equal');
+    }
+    
+    @IsTest
+    private static void testHasApiUser() {
+        Api_User__c apiUser = new Api_User__c();
+        apiUser.Client_ID__c = 'abc';
+        apiUser.Client_Secret__c = 'def';
+        apiUser.Username__c = UserInfo.getUserName();
+        apiUser.Password__c = 'abcdef';
+        insert apiUser;
+        
+        System.assert(SearchLogs.hasApiUser(), 'Should return true');
     }
 }

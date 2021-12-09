@@ -11,7 +11,8 @@ public class SearchLogs {
         if(registeredApiUser == null) return null;
         bearer = getAccessToken(registeredApiUser);
         List<String> allLogStrings = new List<String>();
-        List<ApexLog> allLogs = getLogs();
+        SearchLogDAOService searchLogDAO = new SearchLogDAOServiceImpl();
+        List<ApexLog> allLogs = searchLogDAO.getLogs();
         for (ApexLog al : allLogs) {
             String someData = getLogData(al.Id);
             if(someData.containsIgnoreCase(searchStr) && !someData.contains('selfsearch')) {
@@ -54,6 +55,7 @@ public class SearchLogs {
         }
     }
     
+    @TestVisible
     private static String getAccessToken(Api_User__c apiUser) {
         // 1. Create connected app
         // 2. Remote site setting for endpoint registration
@@ -81,6 +83,7 @@ public class SearchLogs {
         return accessToken;
     }
     
+    @TestVisible
     private static String getLogData(String logId) {
         Http http = new Http();
         HttpRequest request = new HttpRequest();
@@ -100,9 +103,5 @@ public class SearchLogs {
         return logBody;
     } 
     
-    private static List<ApexLog> getLogs() {
-        return [SELECT Id FROM ApexLog];
-    }
-    
-    public class ApplicationException extends Exception {}
+    private class ApplicationException extends Exception {}
 }
