@@ -72,8 +72,8 @@ public class SearchLogsTest {
         System.assert(apiUserResult != null, 'Api User should be successfully inserted');
     }
     
-    public class MockSearchLogDAO implements SearchLogDAOService {
-        public List<ApexLog> getLogs() {
+    public class MockSearchLogDAO extends MockSearchLogDAOService {
+        public override List<ApexLog> getLogs() {
             List<ApexLog> logs = new List<ApexLog>();
             Id logId = TestUtility.getFakeId(ApexLog.SObjectType);
             ApexLog testLog = (ApexLog) JSON.deserialize(
