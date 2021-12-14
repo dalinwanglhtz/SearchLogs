@@ -3,6 +3,18 @@ public class SearchLogs {
     private static String API_PATH = '/services/data/v52.0/sobjects/ApexLog/';
     private static String bearer;
     
+    public static SearchLogDAOService searchLogDAOService {
+        get {
+            if(searchLogDAOService == null) {
+                searchLogDAOService = new SearchLogDAOServiceImpl();
+            }
+            return searchLogDAOService;
+        }
+        set {
+            searchLogDAOService = value;
+        }
+    }
+    
     @AuraEnabled
     public static String searchLogs(String searchStr) {
         // 1. Create connected app
@@ -11,8 +23,7 @@ public class SearchLogs {
         if(registeredApiUser == null) return null;
         bearer = getAccessToken(registeredApiUser);
         List<String> allLogStrings = new List<String>();
-        SearchLogDAOService searchLogDAO = new SearchLogDAOServiceImpl();
-        List<ApexLog> allLogs = searchLogDAO.getLogs();
+        List<ApexLog> allLogs = searchLogDAOService.getLogs();
         for (ApexLog al : allLogs) {
             String someData = getLogData(al.Id);
             if(someData.containsIgnoreCase(searchStr) && !someData.contains('selfsearch')) {
