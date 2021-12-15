@@ -15,6 +15,18 @@ public class SearchLogs {
         }
     }
     
+    public static Http http {
+        get {
+            if(http == null) {
+                http = new Http();
+            }
+            return http;
+        }
+        set {
+            http = value;
+        }
+    }
+    
     @AuraEnabled
     public static String searchLogs(String searchStr) {
         // 1. Create connected app
@@ -70,7 +82,6 @@ public class SearchLogs {
     private static String getAccessToken(Api_User__c apiUser) {
         // 1. Create connected app
         // 2. Remote site setting for endpoint registration
-        Http http = new Http();
         HttpRequest request = new HttpRequest();
         request.setMethod('POST');
         request.setEndpoint('https://login.salesforce.com/services/oauth2/token');
@@ -96,7 +107,6 @@ public class SearchLogs {
     
     @TestVisible
     private static String getLogData(String logId) {
-        Http http = new Http();
         HttpRequest request = new HttpRequest();
 
         request.setMethod('GET');
