@@ -1,8 +1,5 @@
 @IsTest
 global class MockHTTPCallout implements HttpCalloutMock {
-    private static String currentOrgSite = URL.getSalesforceBaseUrl().toExternalForm();
-    private static String API_PATH = '/services/data/v52.0/sobjects/ApexLog/';
-    
     global HTTPResponse respond(HTTPRequest req) {
         if(req.getEndpoint().endsWith('token')) {
             HTTPResponse res = new HTTPResponse();
