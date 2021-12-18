@@ -54,4 +54,17 @@ export default class SerachLogs extends LightningElement {
                 this.isLoaded = true;
             });
     }
+
+    async copyToClipboard() {
+        let textForCopy = this.template.querySelector('textarea');
+        if(!navigator.clipboard) {
+            console.log('No Navigator Object, use old method');
+            textForCopy.select();
+            textForCopy.setSelectionRange(0, 999999);
+            document.execCommand('copy');
+            textForCopy.value = '';
+            return;
+        }
+        await navigator.clipboard.writeText(text);
+    }
 }
