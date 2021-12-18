@@ -1,3 +1,26 @@
+# How to setup this component
+** You need to setup OAuth in order to use SearchLogs **
+## Create a new Connected App: 
+1. Setup -> App Manager
+2. New Connected App
+3. Filling in App Name and Contact email
+4. Enable Oauth Settings
+5. Callback URL (any): https://www.salesforce.com (if you want to)
+6. Save
+## Retrieve credentials
+1. Setup -> App Manager -> Goto Connected App created above -> Click on dropdown -> Select View
+2. Client ID -> Consumer Key -> Copy (for Client ID below)
+3. Client Secret -> Consumer Secre -> Click to Review -> Copy (for Client Secret below)
+## Get your security token
+1. Your Password -> Your salesforce password + security token
+2. My Profile -> Setting-> Reset My Security Token
+3. Copy the resulting token (for password below)
+## Add entry to Remote Site Setting
+1. Setup -> Remote Site Setting -> New -> Add new entry for https://login.salesforce.com
+
+# How to use Search Logs
+
+
 # Salesforce DX Project: Next Steps
 
 Now that you’ve created a Salesforce DX project, what’s next? Here are some documentation resources to get you started.
