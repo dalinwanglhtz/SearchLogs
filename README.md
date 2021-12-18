@@ -1,5 +1,5 @@
 # How to setup this component
-** You need to setup OAuth in order to use SearchLogs **
+**You need to setup OAuth in order to use SearchLogs**
 ## Create a new Connected App: 
 1. Setup -> App Manager
 2. New Connected App
@@ -19,7 +19,8 @@
 1. Setup -> Remote Site Setting -> New -> Add new entry for https://login.salesforce.com
 
 # How to use Search Logs
-
+1. Register your API user using credentials retrieved from above steps
+2. Search
 
 # Salesforce DX Project: Next Steps
 
