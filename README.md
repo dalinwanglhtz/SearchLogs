@@ -21,7 +21,7 @@
 # How to use Search Logs
 1. Add the new component to your Org
 2. Register your API user using OAuth credentials obtained from above steps
-![Register API user](https://github.com/dalinwanglhtz/searchLogs/blob/master/force-app/main/default/staticresources/images/searchlog-register.JPG?raw=true | width=200)
+<img src="https://github.com/dalinwanglhtz/searchLogs/blob/master/force-app/main/default/staticresources/images/searchlog-register.JPG" width="200">
 3. Start Searching
 
 # Salesforce DX Project: Next Steps
