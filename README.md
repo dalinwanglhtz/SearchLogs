@@ -9,8 +9,8 @@
 6. Save
 ## Retrieve credentials
 1. Setup -> App Manager -> Goto Connected App created above -> Click on dropdown -> Select View
-2. Client ID -> Consumer Key -> Copy (for Client ID below)
-3. Client Secret -> Consumer Secre -> Click to Review -> Copy (for Client Secret below)
+2. Client ID -> Consumer Key -> Copy (for Client ID)
+3. Client Secret -> Consumer Secre -> Click to Review -> Copy (for Client Secret)
 ## Get your security token
 1. Your Password -> Your salesforce password + security token
 2. My Profile -> Setting-> Reset My Security Token
@@ -21,7 +21,7 @@
 # How to use Search Logs
 1. Add the new component to your Org
 2. Register your API user using OAuth credentials obtained from above steps
-![Register API user](https://github.com/dalinwanglhtz/searchLogs/blob/master/force-app/main/default/staticresources/images/searchlog-register.JPG?raw=true)
+![Register API user](https://github.com/dalinwanglhtz/searchLogs/blob/master/force-app/main/default/staticresources/images/searchlog-register.JPG?raw=true = 250x250)
 3. Start Searching
 
 # Salesforce DX Project: Next Steps
