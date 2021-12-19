@@ -19,8 +19,10 @@
 1. Setup -> Remote Site Setting -> New -> Add new entry for https://login.salesforce.com
 
 # How to use Search Logs
-1. Register your API user using credentials retrieved from above steps
-2. Search
+1. Add the new component to your Org
+2. Register your API user using OAuth credentials obtained from above steps
+![Register API user](https://github.com/dalinwanglhtz/searchLogs/blob/master/force-app/main/default/staticresources/images/searchlog-register.JPG?raw=true)
+3. Start Searching
 
 # Salesforce DX Project: Next Steps
 
