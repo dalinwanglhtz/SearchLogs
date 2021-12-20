@@ -67,4 +67,15 @@ export default class SerachLogs extends LightningElement {
         }
         await navigator.clipboard.writeText(text);
     }
+
+    downloadAsText() {
+        console.log('About to download ...');
+        let downloadElem = document.createElement('a');
+        downloadElem.href = 'data:text/plain;charset=utf-8,' + encodeURIComponent(this.someData);
+        downloadElem.target = '_self';
+        downloadElem.download = 'debug-log.txt';
+        document.body.appendChild(downloadElem);
+        downloadElem.click();
+        document.body.removeChild(downloadElem);
+    }
 }
