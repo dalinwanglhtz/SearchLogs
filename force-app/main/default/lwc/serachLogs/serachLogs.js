@@ -69,6 +69,7 @@ export default class SerachLogs extends LightningElement {
     }
 
     downloadAsText() {
+        if(!this.someData) return;
         console.log('About to download ...');
         let downloadElem = document.createElement('a');
         downloadElem.href = 'data:text/plain;charset=utf-8,' + encodeURIComponent(this.someData);
