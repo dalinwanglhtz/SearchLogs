@@ -1,4 +1,4 @@
-import { LightningElement, track } from 'lwc';
+import { LightningElement, track, wire } from 'lwc';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import getUserName from '@salesforce/apex/SearchLogs.getUserName';
 import getApiUser from '@salesforce/apex/SearchLogs.getApiUser';
@@ -24,13 +24,22 @@ export default class ApiUserEdit extends LightningElement {
                         this.apiUser.Client_Secret__c = result.Client_Secret__c;
                     })
                     .catch(err => {
-                        this.error = err;
+                        this.error = err.body.message;
+                        this.showErrorMessage();
                     })
             })
             .catch(err => {
-                this.error = err;
+                this.error = err.body.message;
+                this.showErrorMessage();
             });
-        
+    }
+
+    showErrorMessage() {
+        this.dispatchEvent(new ShowToastEvent({
+            title: 'Error',
+            message: this.error,
+            variant: 'error'
+        }));
     }
 
     handleSave() {
