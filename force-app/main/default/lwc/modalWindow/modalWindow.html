@@ -23,6 +23,9 @@
                     <template if:false={isEditApiUser}>
                         <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">Steps to Setup</h2>
                     </template>
+                    <template if:true={isEditApiUser}>
+                        <h2 id="modal-heading-02" class="slds-text-heading_medium slds-hyphenate">Edit Api User</h2>
+                    </template>
                 </header>
                 <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
                     <template if:false={isEditApiUser}>
