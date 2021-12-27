@@ -1,9 +1,33 @@
 <template>
     <div class="slds-var-m-around_small">
-        <lightning-input name="username" label="Username" type="text"></lightning-input>
-        <lightning-input name="password" label="Password" type="password"></lightning-input>
-        <lightning-input name="clientId" label="Client ID" type="text"></lightning-input>
-        <lightning-input name="clientSecret" label="Client Secret" type="text"></lightning-input>
+        <lightning-input 
+            name="Username__c" 
+            label="Username" 
+            type="text" 
+            value={apiUser.Username__c} 
+            onchange={handleInputChange}>
+        </lightning-input>
+        <lightning-input 
+            name="Password__c" 
+            label="Password" 
+            type="password" 
+            value={apiUser.Password__c} 
+            onchange={handleInputChange}>
+        </lightning-input>
+        <lightning-input 
+            name="Client_ID__c" 
+            label="Client ID" 
+            type="text" 
+            value={apiUser.Client_ID__c} 
+            onchange={handleInputChange}>
+        </lightning-input>
+        <lightning-input 
+            name="Client_Secret__c" 
+            label="Client Secret" 
+            type="text" 
+            value={apiUser.Client_Secret__c} 
+            onchange={handleInputChange}>
+        </lightning-input>
         <div class="slds-var-m-top_x-small">
             <lightning-button label="Save" onclick={handleSave}></lightning-button>
         </div>

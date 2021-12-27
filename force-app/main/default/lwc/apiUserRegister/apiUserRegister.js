@@ -14,7 +14,7 @@ export default class ApiUserRegister extends LightningElement {
             })
             .catch((error) => {
                 this.error = error;
-            })
+            });
     }
 
     handleRegister() {

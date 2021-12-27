@@ -50,7 +50,7 @@ public class SearchLogs {
     @AuraEnabled
     public static void apiUserRegister(Api_User__c apiUser) {
         if(getAccessToken(apiUser) != null) {
-            insert apiUser;
+            upsert apiUser;
         } else {
             throw new AuraHandledException('API User cannot be registered! Make sure user details and credentials are entered correctly.');
         }
@@ -66,7 +66,8 @@ public class SearchLogs {
         return UserInfo.getUserName();
     }
     
-    private static Api_User__c getApiUser(String userName) {
+    @AuraEnabled
+    public static Api_User__c getApiUser(String userName) {
         Api_User__c apiUser;
         try {
         	apiUser = [SELECT Id, Username__c, Password__c, Client_ID__c, Client_Secret__c
