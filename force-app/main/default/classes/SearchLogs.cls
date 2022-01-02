@@ -28,6 +28,12 @@ public class SearchLogs {
     }
     
     @AuraEnabled
+    public static void advancedSearchLogs(String searchStr) {
+        BatchGetLogs bgl = new BatchGetLogs(searchStr);
+        Id batchId = Database.executeBatch(bgl, 10);
+    }
+    
+    @AuraEnabled
     public static String searchLogs(String searchStr) {
         // 1. Create connected app
         // 2. Remote site setting for endpoint registration

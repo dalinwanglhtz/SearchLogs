@@ -1,6 +1,7 @@
 import { LightningElement } from 'lwc';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import searchLogs from '@salesforce/apex/SearchLogs.searchLogs';
+import advancedSearchLogs from '@salesforce/apex/SearchLogs.advancedSearchLogs';
 import getApiUser from '@salesforce/apex/SearchLogs.hasApiUser';
 
 export default class SerachLogs extends LightningElement {
@@ -30,29 +31,46 @@ export default class SerachLogs extends LightningElement {
         }
     }
 
-    handleSearch() {
+    handleSearch(event) {
         this.isLoaded = false;
         let searchText = this.template.querySelector('lightning-input').value;
         if(!searchText) {
             this.isLoaded = true;
             return;
         }
-        searchLogs({searchStr : searchText})
+        if(event.target.label == 'Search') {
+            searchLogs({searchStr : searchText})
+                .then((result) => {
+                    if(!result) {
+                        this.dispatchEvent(new ShowToastEvent({
+                            title: 'Error',
+                            message: 'No results found',
+                            variant: 'error'
+                        }))
+                    }
+                    this.isLoaded = true;
+                    this.someData = result;
+                })
+                .catch((error) => {
+                    this.error = error;
+                    this.isLoaded = true;
+                });
+        } else {
+            advancedSearchLogs({searchStr : searchText})
             .then((result) => {
-                if(!result) {
-                    this.dispatchEvent(new ShowToastEvent({
-                        title: 'Error',
-                        message: 'No results found',
-                        variant: 'error'
-                    }))
-                }
+                this.dispatchEvent(new ShowToastEvent({
+                    title: 'Success',
+                    message: 'Log Search Initiated',
+                    variant: 'success'
+                }))
                 this.isLoaded = true;
-                this.someData = result;
+                this.someData = 'Check your email';
             })
             .catch((error) => {
                 this.error = error;
                 this.isLoaded = true;
             });
+        }
     }
 
     async copyToClipboard() {

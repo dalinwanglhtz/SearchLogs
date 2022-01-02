@@ -17,6 +17,8 @@
                 ></lightning-input>
                 <div class="slds-var-m-top_xx-small">
                     <lightning-button label="Search" onclick={handleSearch}></lightning-button>
+                    &nbsp;
+                    <lightning-button label="Advanced Search" onclick={handleSearch}></lightning-button>
                 </div>
                 <div if:false={isLoaded}>
                     <lightning-spinner variant="brand"></lightning-spinner>
