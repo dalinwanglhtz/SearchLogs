@@ -10,7 +10,7 @@ export default class SerachLogs extends LightningElement {
     isLoaded = true;
     readyForSearch = false;
     quickSearch = 'Quick Search';
-    advancedSearch = 'Full Logs Search';
+    advancedSearch = 'Search All Logs';
 
     connectedCallback() {
         getApiUser()
