@@ -9,6 +9,8 @@ export default class SerachLogs extends LightningElement {
     error;
     isLoaded = true;
     readyForSearch = false;
+    quickSearch = 'Quick Search';
+    advancedSearch = 'Full Logs Search';
 
     connectedCallback() {
         getApiUser()
@@ -27,7 +29,7 @@ export default class SerachLogs extends LightningElement {
     handleEnter(event) {
         // When you hit Enter key
         if(event.keyCode == 13) {
-            event.target.label = 'Search';
+            event.target.label = this.quickSearch;
             this.handleSearch(event);
         }
     }
@@ -39,7 +41,7 @@ export default class SerachLogs extends LightningElement {
             this.isLoaded = true;
             return;
         }
-        if(event.target.label != 'Advanced Search') {
+        if(event.target.label != this.advancedSearch) {
             searchLogs({searchStr : searchText})
                 .then((result) => {
                     if(!result) {
@@ -89,7 +91,6 @@ export default class SerachLogs extends LightningElement {
 
     downloadAsText() {
         if(!this.someData) return;
-        console.log('About to download ...');
         let downloadElem = document.createElement('a');
         downloadElem.href = 'data:text/plain;charset=utf-8,' + encodeURIComponent(this.someData);
         downloadElem.target = '_self';
