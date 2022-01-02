@@ -27,7 +27,8 @@ export default class SerachLogs extends LightningElement {
     handleEnter(event) {
         // When you hit Enter key
         if(event.keyCode == 13) {
-            this.handleSearch();
+            event.target.label = 'Search';
+            this.handleSearch(event);
         }
     }
 
@@ -38,7 +39,7 @@ export default class SerachLogs extends LightningElement {
             this.isLoaded = true;
             return;
         }
-        if(event.target.label == 'Search') {
+        if(event.target.label != 'Advanced Search') {
             searchLogs({searchStr : searchText})
                 .then((result) => {
                     if(!result) {
@@ -64,7 +65,7 @@ export default class SerachLogs extends LightningElement {
                     variant: 'success'
                 }))
                 this.isLoaded = true;
-                this.someData = 'Check your email';
+                this.someData = 'Search output will be sent through to your email. Please check your email in a minute.';
             })
             .catch((error) => {
                 this.error = error;

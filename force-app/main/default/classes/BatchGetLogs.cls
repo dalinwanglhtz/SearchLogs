@@ -1,7 +1,7 @@
 public class BatchGetLogs implements Database.Batchable<sObject>, Database.AllowsCallouts, Database.Stateful {
 	private static String currentOrgSite = URL.getSalesforceBaseUrl().toExternalForm();
     private static String API_PATH = '/services/data/v52.0/sobjects/ApexLog/';
-    public List<String> allLogStrings;
+    public List<String> allLogStrings; // To obtain results, this class should implement Database.Stateful
     public String query = 'SELECT Id, LogUserId, StartTime, LogLength FROM ApexLog WHERE LogLength < 12000000 ORDER BY StartTime DESC';
     private String bearer;
     private String searchStr;
@@ -31,13 +31,9 @@ public class BatchGetLogs implements Database.Batchable<sObject>, Database.Allow
     }
     
     public void execute(Database.BatchableContext bc, List<ApexLog> records) {
-        System.debug('Record size: '+records.size());
-        System.debug('Searching for: '+searchStr);
         for (ApexLog al : records) {
             String someData = getLogData(al.Id);
-            System.debug('Searching in '+someData.length());
             if(someData.containsIgnoreCase(searchStr) && !someData.contains('selfsearch')) {
-                System.debug('Found');
             	allLogStrings.add(someData);   
             }
         }
@@ -101,7 +97,6 @@ public class BatchGetLogs implements Database.Batchable<sObject>, Database.Allow
     }
     
     public void finish(Database.BatchableContext bc) {
-        System.debug('Final result: '+allLogStrings.size());
         sendEmail();
 		sendNotification();
     }
