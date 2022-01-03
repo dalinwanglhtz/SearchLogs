@@ -72,16 +72,6 @@ public class SearchLogs {
     
     @AuraEnabled
     public static Api_User__c getApiUser(String userName) {
-        Api_User__c apiUser;
-        try {
-        	apiUser = [SELECT Id, Username__c, Password__c, Client_ID__c, Client_Secret__c
-                       FROM Api_User__c 
-                       WHERE Username__c = :userName LIMIT 1];
-            return apiUser;
-        } catch(Exception ex) {
-            throw new ApplicationException('No Api User found with username: '+userName);
-        }
+        return searchLogDAOService.getApiUserByUsername(userName);
     }
-    
-    private class ApplicationException extends Exception {}
 }

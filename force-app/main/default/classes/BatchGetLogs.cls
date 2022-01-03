@@ -4,6 +4,18 @@ public class BatchGetLogs implements Database.Batchable<sObject>, Database.Allow
     private String searchStr;
     private String bearer;
     
+    public static SearchLogDAOService searchLogDAOService {
+        get {
+            if(searchLogDAOService == null) {
+                searchLogDAOService = new SearchLogDAOServiceImpl();
+            }
+            return searchLogDAOService;
+        }
+        set {
+            searchLogDAOService = value;
+        }
+    }
+    
     public static HttpCalloutService calloutService {
         get {
             if (calloutService == null) {
@@ -17,7 +29,7 @@ public class BatchGetLogs implements Database.Batchable<sObject>, Database.Allow
     }
     
     public BatchGetLogs(String searchStr) {
-        Api_User__c registeredApiUser = getApiUser(UserInfo.getUserName());
+        Api_User__c registeredApiUser = searchLogDAOService.getApiUserByUsername(UserInfo.getUserName());
         if(registeredApiUser == null) return;
         bearer = calloutService.getAccessToken(registeredApiUser);
         allLogStrings = new List<String>();
@@ -37,19 +49,7 @@ public class BatchGetLogs implements Database.Batchable<sObject>, Database.Allow
         }
         System.debug('selfsearch');
     }
-    
-    public Api_User__c getApiUser(String userName) {
-        Api_User__c apiUser;
-        try {
-        	apiUser = [SELECT Id, Username__c, Password__c, Client_ID__c, Client_Secret__c
-                       FROM Api_User__c 
-                       WHERE Username__c = :userName LIMIT 1];
-            return apiUser;
-        } catch(Exception ex) {
-            throw new ApplicationException('No Api User found with username: '+userName);
-        }
-    }
-    
+        
     public void finish(Database.BatchableContext bc) {
         sendEmail();
 		sendNotification();
