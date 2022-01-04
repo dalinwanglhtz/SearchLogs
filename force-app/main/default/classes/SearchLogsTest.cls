@@ -14,6 +14,7 @@ public class SearchLogsTest {
     @IsTest
     private static void testSearchLogs() {
         SearchLogs.searchLogDAOService = new MockSearchLogDAO();
+        //SearchLogs.calloutService = new MockCalloutService();
         
         Test.startTest();
         Test.setMock(HTTPCalloutMock.class, new MockHTTPCallout());
@@ -21,28 +22,6 @@ public class SearchLogsTest {
         Test.stopTest();
         
         System.assertEquals('testlogdata', output, 'Output should equal testlogdata');
-    }
-    
-    @IsTest
-    private static void testGetAccessToken() {
-        Api_User__c apiUser = [SELECT Id, Client_ID__c, Client_Secret__c, Username__c, Password__c
-                              FROM Api_User__c LIMIT 1];
-        Test.startTest();
-        Test.setMock(HTTPCalloutMock.class, new MockHTTPCallout());        
-        String bearer = SearchLogs.getAccessToken(apiUser);
-        Test.stopTest();
-
-        System.assertEquals('abcde', bearer, 'Bearer should equal abcde');
-    }
-    
-    @IsTest
-    private static void testGetLogData() {
-        Test.startTest();
-        Test.setMock(HTTPCalloutMock.class, new MockHTTPCallout());
-        String logData = SearchLogs.getLogData('testlogid');
-        Test.stopTest();
-        
-        System.assertEquals('testlogdata', logData, 'Log data should equal');
     }
     
     @IsTest
@@ -81,6 +60,16 @@ public class SearchLogsTest {
                 ApexLog.class);
             logs.add(testLog);
             return logs;
+        }
+    }
+    
+    // May not be required as MockHttpCallout does the handle Http Callouts
+    public class MockCalloutService extends MockHttpCalloutService {
+        public override String getAccessToken(Api_User__c apiUser) {
+            return 'abcde';
+        }
+        public override String getLogData(String logId, String bearer) {
+            return 'testlogdata';
         }
     }
 }
