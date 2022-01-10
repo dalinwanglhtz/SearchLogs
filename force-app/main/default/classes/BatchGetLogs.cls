@@ -3,6 +3,7 @@ public class BatchGetLogs implements Database.Batchable<sObject>, Database.Allow
     public String query = 'SELECT Id, LogUserId, StartTime, LogLength FROM ApexLog WHERE LogLength < 12000000 ORDER BY StartTime DESC';
     private String searchStr;
     private String bearer;
+    public static Integer logSize;
     
     public static SearchLogDAOService searchLogDAOService {
         get {
@@ -44,13 +45,15 @@ public class BatchGetLogs implements Database.Batchable<sObject>, Database.Allow
         for (ApexLog al : records) {
             String someData = calloutService.getLogData(al.Id, bearer);
             if(someData.containsIgnoreCase(searchStr) && !someData.contains('selfsearch')) {
-            	allLogStrings.add(someData);   
+            	allLogStrings.add(someData);
+                System.debug('Size: '+allLogStrings.size());
             }
         }
         System.debug('selfsearch');
     }
         
     public void finish(Database.BatchableContext bc) {
+        logSize = allLogStrings.size();
         sendEmail();
 		sendNotification();
     }
