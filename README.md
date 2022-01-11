@@ -33,6 +33,7 @@ The Quick Search button performs search of a given key in the most recent 100 lo
 ## Search All Logs
 Search All Logs button performs comprehensive search across all the logs created in this org. When results are found, log contents are concatenated and emailed to Api User registered email as an attachment. 
 <img src="https://github.com/dalinwanglhtz/searchLogs/blob/master/force-app/main/default/staticresources/images/search-all-logs-toast-message.JPG" width="400">
+
 A custom notification will be created to notify user of this event.
 <img src="https://github.com/dalinwanglhtz/searchLogs/blob/master/force-app/main/default/staticresources/images/search-all-logs-custom-notification.JPG" width="400">
 <img src="https://github.com/dalinwanglhtz/searchLogs/blob/master/force-app/main/default/staticresources/images/search-all-logs-custom-notification-2.JPG" width="400">
