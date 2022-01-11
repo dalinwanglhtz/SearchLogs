@@ -36,6 +36,7 @@ Search All Logs button performs comprehensive search across all the logs created
 
 A custom notification will be created to notify user of this event.
 <img src="https://github.com/dalinwanglhtz/searchLogs/blob/master/force-app/main/default/staticresources/images/search-all-logs-custom-notification.JPG" width="400">
+
 <img src="https://github.com/dalinwanglhtz/searchLogs/blob/master/force-app/main/default/staticresources/images/search-all-logs-custom-notification-2.JPG" width="400">
 
 # Salesforce DX Project: Next Steps
