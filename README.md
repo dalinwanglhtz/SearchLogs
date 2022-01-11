@@ -18,19 +18,24 @@
 ## Add entry to Remote Site Setting
 1. Setup -> Remote Site Setting -> New -> Add new entry for https://login.salesforce.com
 
-# Quick Search vs Search All Logs
-## Quick Search
-The Quick Search button performs search of a given key in the most recent 100 logs. When results are found, the log contents are concatenated and displayed in the text area below.
-
-## Search All Logs
-Search All Logs button performs comprehensive search across all the logs created in this org. When results are found, log contents are concatenated and emailed to Api User registered email as an attachment. A custom notification will be created to notify user of this event.
-
 # How to use Search Logs
 1. Add the new component to your Org
 2. Register your API user using OAuth credentials obtained from above steps
 <img src="https://github.com/dalinwanglhtz/searchLogs/blob/master/force-app/main/default/staticresources/images/searchlog-register.JPG" width="400">
-3. Start Searching
+3. Start Searching - Quick Search
 <img src="https://github.com/dalinwanglhtz/searchLogs/blob/master/force-app/main/default/staticresources/images/searchlog-ui.JPG" width="400">
+
+# Quick Search vs Search All Logs
+## Quick Search
+The Quick Search button performs search of a given key in the most recent 100 logs. When results are found, the log contents are concatenated and displayed in the text area below.
+<img src="https://github.com/dalinwanglhtz/searchLogs/blob/master/force-app/main/default/staticresources/images/searchlog-ui.JPG" width="400">
+
+## Search All Logs
+Search All Logs button performs comprehensive search across all the logs created in this org. When results are found, log contents are concatenated and emailed to Api User registered email as an attachment. 
+<img src="https://github.com/dalinwanglhtz/searchLogs/blob/master/force-app/main/default/staticresources/images/search-all-logs-toast-message.JPG" width="400">
+A custom notification will be created to notify user of this event.
+<img src="https://github.com/dalinwanglhtz/searchLogs/blob/master/force-app/main/default/staticresources/images/search-all-logs-custom-notification.JPG" width="400">
+<img src="https://github.com/dalinwanglhtz/searchLogs/blob/master/force-app/main/default/staticresources/images/search-all-logs-custom-notification-2.JPG" width="400">
 
 # Salesforce DX Project: Next Steps
 
