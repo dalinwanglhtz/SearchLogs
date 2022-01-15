@@ -46,7 +46,6 @@ public class BatchGetLogs implements Database.Batchable<sObject>, Database.Allow
             String someData = calloutService.getLogData(al.Id, bearer);
             if(someData.containsIgnoreCase(searchStr) && !someData.contains('selfsearch')) {
             	allLogStrings.add(someData);
-                System.debug('Size: '+allLogStrings.size());
             }
         }
         System.debug('selfsearch');
@@ -54,6 +53,9 @@ public class BatchGetLogs implements Database.Batchable<sObject>, Database.Allow
         
     public void finish(Database.BatchableContext bc) {
         logSize = allLogStrings.size();
+        if(logSize == 0) {
+            throw new ApplicationException('No results found!');
+        }
         sendEmail();
 		sendNotification();
     }
