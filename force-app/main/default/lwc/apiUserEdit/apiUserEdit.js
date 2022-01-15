@@ -51,6 +51,7 @@ export default class ApiUserEdit extends LightningElement {
         apiUserRegister({apiUser: apiUser})
             .then((result) => {
                 this.dispatchEvent(new CustomEvent('registersuccess'));
+                this.dispatchEvent(new CustomEvent('closemodal'));
             })
             .catch((error) => {
                 this.dispatchEvent(new ShowToastEvent({
@@ -58,7 +59,8 @@ export default class ApiUserEdit extends LightningElement {
                     message: error.body.message,
                     variant: 'error'
                 }));
-            })
+                this.dispatchEvent(new CustomEvent('closemodal'));
+            });
     }
 
     handleDelete() {
@@ -69,6 +71,7 @@ export default class ApiUserEdit extends LightningElement {
                     message: 'Api User Successfully Removed',
                     variant: 'success'
                 }));
+                this.dispatchEvent(new CustomEvent('closemodal'));
             })
             .catch((error) => {
                 this.dispatchEvent(new ShowToastEvent({
@@ -76,6 +79,7 @@ export default class ApiUserEdit extends LightningElement {
                     message: error.body.message,
                     variant: 'error'
                 }));
-            })
+                this.dispatchEvent(new CustomEvent('closemodal'));
+            });
     }
 }
