@@ -61,6 +61,11 @@ public class SearchLogs {
     }
     
     @AuraEnabled
+    public static void deleteApiUser(Api_User__c apiUser) {
+        delete apiUser;
+    }
+    
+    @AuraEnabled
     public static Boolean hasApiUser() {
         return getApiUser(UserInfo.getUserName()) != null;
     }

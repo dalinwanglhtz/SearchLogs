@@ -3,6 +3,7 @@ import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import getUserName from '@salesforce/apex/SearchLogs.getUserName';
 import getApiUser from '@salesforce/apex/SearchLogs.getApiUser';
 import apiUserRegister from '@salesforce/apex/SearchLogs.apiUserRegister';
+import deleteApiUser from '@salesforce/apex/SearchLogs.deleteApiUser';
 
 export default class ApiUserEdit extends LightningElement {
     @track apiUser = {}
@@ -50,6 +51,24 @@ export default class ApiUserEdit extends LightningElement {
         apiUserRegister({apiUser: apiUser})
             .then((result) => {
                 this.dispatchEvent(new CustomEvent('registersuccess'));
+            })
+            .catch((error) => {
+                this.dispatchEvent(new ShowToastEvent({
+                    title: 'Error',
+                    message: error.body.message,
+                    variant: 'error'
+                }));
+            })
+    }
+
+    handleDelete() {
+        deleteApiUser({apiUser: JSON.parse(JSON.stringify(this.apiUser))})
+            .then((result) => {
+                this.dispatchEvent(new ShowToastEvent({
+                    title: 'Success',
+                    message: 'Api User Successfully Removed',
+                    variant: 'success'
+                }));
             })
             .catch((error) => {
                 this.dispatchEvent(new ShowToastEvent({
