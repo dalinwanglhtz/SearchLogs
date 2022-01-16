@@ -62,7 +62,11 @@ public class SearchLogs {
     
     @AuraEnabled
     public static void deleteApiUser(Api_User__c apiUser) {
-        delete apiUser;
+        try {
+            delete apiUser;
+        } catch(Exception ex) {
+            throw new AuraHandledException('API user cannot be delete! Make sure this user exists.');
+        }
     }
     
     @AuraEnabled

@@ -51,6 +51,45 @@ public class SearchLogsTest {
         System.assert(apiUserResult != null, 'Api User should be successfully inserted');
     }
     
+    @IsTest
+    private static void testDeleteApiUser() {
+        Api_User__c apiUser = new Api_User__c();
+        apiUser.Client_ID__c = 'abc';
+        apiUser.Client_Secret__c = 'def';
+        apiUser.Username__c = 'testuser@user.com';
+        apiUser.Password__c = 'abcdef';
+        insert apiUser;
+        
+        Test.startTest();
+        SearchLogs.deleteApiUser(apiUser);
+        Test.stopTest();
+        
+        List<Api_User__c> apiUserResults = [SELECT Id, Client_ID__c, Client_Secret__c, Username__c, Password__c
+                                    FROM Api_User__c
+                                    WHERE Username__c = 'testuser@user.com' LIMIT 1];
+        System.assert(apiUserResults.size() == 0, 'Api user should be successfully deleted');
+    }
+    
+    @IsTest
+    private static void testDeleteApiUserException() {
+        Api_User__c apiUser = new Api_User__c();
+        apiUser.Client_ID__c = 'abc';
+        apiUser.Client_Secret__c = 'def';
+        apiUser.Username__c = 'testuser@user.com';
+        apiUser.Password__c = 'abcdef';
+        
+        Test.startTest();
+        Boolean hasException = false;
+        try {
+            SearchLogs.deleteApiUser(apiUser);
+        } catch(Exception ex) {
+            hasException = true;
+        }
+        Test.stopTest();
+        
+        System.assert(hasException, 'Exception should be thrown.');
+    }
+    
     public class MockSearchLogDAO extends MockSearchLogDAOService {
         public override List<ApexLog> getLogs() {
             List<ApexLog> logs = new List<ApexLog>();
