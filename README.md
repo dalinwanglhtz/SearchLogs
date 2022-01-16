@@ -17,6 +17,9 @@
 3. Copy the resulting token (for password below)
 ## Add entry to Remote Site Setting
 1. Setup -> Remote Site Setting -> New -> Add new entry for https://login.salesforce.com
+## For non-admin profile users
+Non-admin profile users need to be granted access to SearchLogs Apex class
+
 
 # How to use Search Logs
 1. Add the new component to your Org
