@@ -44,7 +44,7 @@ public class BatchGetLogs implements Database.Batchable<sObject>, Database.Allow
     public void execute(Database.BatchableContext bc, List<ApexLog> records) {
         for (ApexLog al : records) {
             String someData = calloutService.getLogData(al.Id, bearer);
-            if(someData.containsIgnoreCase(searchStr) && !someData.contains('selfsearch')) {
+            if(SearchLogUtility.searchKey(someData, searchStr) && !someData.contains('selfsearch')) {
             	allLogStrings.add(someData);
             }
         }
